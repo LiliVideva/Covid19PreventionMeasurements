@@ -1,5 +1,6 @@
 from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize
+from progress.spinner import Spinner
 
 from commons import all_countries, wiki
 
@@ -14,21 +15,22 @@ def stem_sentence(sentence):
 
     for word in token_words:
         sentence.append(porter.stem(word))
-        sentence.append(" ")
 
-    return "".join(sentence)
+    return " ".join(sentence)
 
 
-def get_section_titles():
+def get_all_section_titles():
     titles = {}
+    spinner = Spinner("Downloading...")
 
     for c in all_countries:
-        year = ("2020", "2019-20")[c == "mainland China"]
+        # year = ("2020", "2019-20")[c == "mainland China"]
+        year = "2019-20" if c == "mainland China" else "2020"
         sect = wiki.page(f'{year} coronavirus pandemic in {c}').sections
 
         for s in sect:
             titles[s.title] = c
-
+        spinner.next()
     return titles
 
 
@@ -63,16 +65,18 @@ def get_relevant_section_titles(all_section_titles):
     return rel_section_titles
 
 
-section_titles = get_section_titles()
+if __name__ == '__main__':
 
-for title in section_titles:
-    stemmed_title = stem_sentence(title)
-    print(f'Stemmed variant of {title}: {stemmed_title}')
+    section_titles = get_all_section_titles()
 
-# new_section_titles = check_for_new_section_titles(section_titles)
-# section_titles = update_section_titles(section_titles, new_section_titles)
-
-relevant_section_titles = get_relevant_section_titles(section_titles)
-
-for rel_sect_title in relevant_section_titles:
-    print(rel_sect_title)
+    # for section_title in section_titles:
+    #     stemmed_title = stem_sentence(section_title)
+    #     print(f'Stemmed variant of {section_title}: {stemmed_title}')
+    #
+    # # new_section_titles = check_for_new_section_titles(section_titles)
+    # # section_titles = update_section_titles(section_titles, new_section_titles)
+    #
+    relevant_section_titles = get_relevant_section_titles(section_titles)
+    #
+    for rel_sect_title in relevant_section_titles:
+        print(rel_sect_title)

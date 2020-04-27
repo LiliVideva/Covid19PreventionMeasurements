@@ -46,7 +46,8 @@ drive = drive_login()
 directory = get_directory(drive)
 
 for c in all_countries:
-    year = ("2020", "2019-20")[c == "mainland China"]
+    # year = ("2020", "2019-20")[c == "mainland China"]
+    year = "2019-20" if c == "mainland China" else "2020"
     upload_files(drive, directory, f'{year} coronavirus pandemic in {c}')
 
 additional_articles = get_related_articles()
