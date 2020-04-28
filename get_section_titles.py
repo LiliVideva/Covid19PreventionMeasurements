@@ -1,11 +1,14 @@
 from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize
 from progress.spinner import Spinner
+import wikipediaapi
+from commons import all_countries
 
-from commons import all_countries, wiki
 
-keywords = {"author", "prevent", "clos", "pandem", "govern", "measur", "lockdown", "quarantin", "restrict", "emerg",
-            "develop", "event", "timelin", "effect", "impact", "react", "respons"}
+def get_relevant_section_titles_tokens():
+    with open("stemmed_keywords_for_relevant_section_titles.txt", "r") as input_file:
+        res = input_file.readlines()
+    return [x.strip() for x in res]
 
 
 def stem_sentence(sentence):
@@ -22,7 +25,7 @@ def stem_sentence(sentence):
 def get_all_section_titles():
     titles = {}
     spinner = Spinner("Downloading...")
-
+    wiki = wikipediaapi.Wikipedia()
     for c in all_countries:
         # year = ("2020", "2019-20")[c == "mainland China"]
         year = "2019-20" if c == "mainland China" else "2020"
@@ -31,20 +34,21 @@ def get_all_section_titles():
         for s in sect:
             titles[s.title] = c
         spinner.next()
+    print('\n')
     return titles
 
 
 def check_for_new_section_titles(all_section_titles):
-    new_sections = {}
-
+    new_section_titles = []
+    wiki = wikipediaapi.Wikipedia()
     for c in all_countries:
         sect = wiki.page(f'2020 coronavirus pandemic in {c}').sections
 
         for s in sect:
             if s.title not in all_section_titles:
-                new_sections[s.title] = c
+                new_section_titles.append(s.title)
 
-    return new_sections
+    return new_section_titles
 
 
 def update_section_titles(all_section_titles, new_sections):
@@ -56,27 +60,10 @@ def update_section_titles(all_section_titles, new_sections):
     return all_section_titles
 
 
-def get_relevant_section_titles(all_section_titles):
+def get_relevant_section_titles(all_section_titles, relevant_tokens):
     rel_section_titles = set()
     for sect_title in all_section_titles:
-        if any(word in sect_title.lower() for word in keywords):
+        if any(word in sect_title.lower() for word in relevant_tokens):
             rel_section_titles.add(sect_title)
 
     return rel_section_titles
-
-
-if __name__ == '__main__':
-
-    section_titles = get_all_section_titles()
-
-    # for section_title in section_titles:
-    #     stemmed_title = stem_sentence(section_title)
-    #     print(f'Stemmed variant of {section_title}: {stemmed_title}')
-    #
-    # # new_section_titles = check_for_new_section_titles(section_titles)
-    # # section_titles = update_section_titles(section_titles, new_section_titles)
-    #
-    relevant_section_titles = get_relevant_section_titles(section_titles)
-    #
-    for rel_sect_title in relevant_section_titles:
-        print(rel_sect_title)

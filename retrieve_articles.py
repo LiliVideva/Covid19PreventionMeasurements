@@ -1,25 +1,10 @@
 import wikipedia
-from pydrive.auth import GoogleAuth
-from pydrive.drive import GoogleDrive
-
-from commons import all_countries, wiki
-
-
-def drive_login():
-    gauth = GoogleAuth()
-    gauth.LocalWebserverAuth()
-    drive = GoogleDrive(gauth)
-
-    return drive
+import wikipediaapi
+import commons
+from progress.spinner import Spinner
 
 
-def get_directory(gdrive):
-    covid_dir = gdrive.ListFile({'q': "title = 'COVID-19-Reasearch'"}).GetList()[0]
-
-    return covid_dir
-
-
-def get_related_articles():
+def get_related_article_titles():
     related_key_phrases = {"measure", "impact", "related to", "pandemic on"}
     related_page_titles = set()
 
@@ -32,24 +17,31 @@ def get_related_articles():
     return related_page_titles
 
 
-def upload_files(gdrive, covid_dir, page_title):
-    page = wiki.page(page_title)
-    file_name = f'{page_title} - full.txt'
-    file = gdrive.CreateFile({'title': file_name, 'parents': [{u'id': covid_dir['id']}]})
-    # content = file.GetContentString()
-    file.SetContentString(page.text)  # content + page.text
-    file.Upload()
-    print(f'"{file_name}" has been uploaded')
+def get_pattern_article_titles():
+    titles = []
+    for c in commons.all_countries:
+        # year = ("2020", "2019-20")[c == "mainland China"]
+        year = "2019-20" if c == "mainland China" else "2020"
+        titles.append(f'{year} coronavirus pandemic in {c}')
+    return titles
 
 
-drive = drive_login()
-directory = get_directory(drive)
+def get_pages_content_as_json(page_titles):
+    page_on_sections = {}
+    wiki = wikipediaapi.Wikipedia()
+    spinner = Spinner("Downloading...")
+    for page_title in page_titles:
+        page = wiki.page(page_title)
+        page_content = {}
+        for s in page.sections:
+            page_content[s.title] = [t for t in s.full_text().split('\n') if t][1:]
+            spinner.next()
+        page_on_sections[page_title] = page_content
 
-for c in all_countries:
-    # year = ("2020", "2019-20")[c == "mainland China"]
-    year = "2019-20" if c == "mainland China" else "2020"
-    upload_files(drive, directory, f'{year} coronavirus pandemic in {c}')
+    return page_on_sections
 
-additional_articles = get_related_articles()
-# for article in additional_articles:
-#     upload_files(drive, directory, article)
+
+def print_sections(sections, level=0):
+    for s in sections:
+        print("%s: %s" % ("*" * (level + 1), s.title))
+        print_sections(s.sections, level + 1)

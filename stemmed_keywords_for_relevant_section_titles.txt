@@ -1,0 +1,17 @@
+emerg
+effect
+restrict
+author
+develop
+timelin
+prevent
+lockdown
+event
+impact
+govern
+quarantin
+react
+pandem
+measur
+respons
+clos
