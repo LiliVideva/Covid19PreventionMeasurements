@@ -1,4 +1,5 @@
 import get_section_titles
+import map_date_sentence
 import retrieve_articles
 import drive_utils
 
@@ -18,3 +19,5 @@ if __name__ == '__main__':
     drive = drive_utils.drive_login()
     drive_dir = drive_utils.get_directory(drive)
     drive_utils.upload_files(drive, drive_dir, pages_content)
+
+    dates_sentences = map_date_sentence.get_event_by_date(pages_content, relevant_section_titles)

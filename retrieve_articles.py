@@ -1,7 +1,7 @@
 import wikipedia
 import wikipediaapi
+
 import commons
-from progress.spinner import Spinner
 
 
 def get_related_article_titles():
@@ -29,13 +29,11 @@ def get_pattern_article_titles():
 def get_pages_content_as_json(page_titles):
     page_on_sections = {}
     wiki = wikipediaapi.Wikipedia()
-    spinner = Spinner("Downloading...")
     for page_title in page_titles:
         page = wiki.page(page_title)
         page_content = {}
         for s in page.sections:
             page_content[s.title] = [t for t in s.full_text().split('\n') if t][1:]
-            spinner.next()
         page_on_sections[page_title] = page_content
 
     return page_on_sections
