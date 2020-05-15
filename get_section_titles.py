@@ -24,16 +24,14 @@ def stem_sentence(sentence):
 
 def get_all_section_titles():
     titles = {}
-    spinner = Spinner("Downloading...")
     wiki = wikipediaapi.Wikipedia()
-    for c in all_countries:
+    for c in all_countries.keys():
         # year = ("2020", "2019-20")[c == "mainland China"]
         year = "2019-20" if c == "mainland China" else "2020"
         sect = wiki.page(f'{year} coronavirus pandemic in {c}').sections
 
         for s in sect:
             titles[s.title] = c
-        spinner.next()
     print('\n')
     return titles
 
@@ -41,7 +39,7 @@ def get_all_section_titles():
 def check_for_new_section_titles(all_section_titles):
     new_section_titles = []
     wiki = wikipediaapi.Wikipedia()
-    for c in all_countries:
+    for c in all_countries.keys():
         sect = wiki.page(f'2020 coronavirus pandemic in {c}').sections
 
         for s in sect:

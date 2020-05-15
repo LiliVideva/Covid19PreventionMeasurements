@@ -19,7 +19,7 @@ def get_related_article_titles():
 
 def get_pattern_article_titles():
     titles = []
-    for c in commons.all_countries:
+    for c in commons.all_countries.keys():
         # year = ("2020", "2019-20")[c == "mainland China"]
         year = "2019-20" if c == "mainland China" else "2020"
         titles.append(f'{year} coronavirus pandemic in {c}')

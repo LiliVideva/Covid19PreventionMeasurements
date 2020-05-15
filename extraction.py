@@ -2,6 +2,7 @@ import get_section_titles
 import map_date_sentence
 import retrieve_articles
 import drive_utils
+from retrieve_virus_statistics import retrieve_statistics
 
 if __name__ == '__main__':
     relevant_section_titles_tokens = get_section_titles.get_relevant_section_titles_tokens()
@@ -21,3 +22,5 @@ if __name__ == '__main__':
     drive_utils.upload_files(drive, drive_dir, pages_content)
 
     dates_sentences = map_date_sentence.get_event_by_date(pages_content, relevant_section_titles)
+
+    virus_country_results = retrieve_statistics()

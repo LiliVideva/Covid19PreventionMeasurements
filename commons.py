@@ -1,33 +1,66 @@
-all_countries = ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Anguilla", "Antarctica",
-                 "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan",
-                 "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan",
-                 "Bolivia", "Bonaire", "Bosnia and Herzegovina", "Botswana", "Brazil", "British Overseas Territories",
-                 "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde",
-                 "Chad", "Chile", "Colombia", "Costa Rica", "Croatia", "Cuba", "Curaçao", "Cyprus", "Denmark",
-                 "Djibouti", "Dominica", "East Timor", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea",
-                 "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland", "France", "French Guiana",
-                 "French Polynesia", "French Saint Martin", "Gabon", "Georgia (country)", "Germany", "Ghana",
-                 "Gibraltar", "Greece", "Greenland", "Grenada", "Guadeloupe", "Guam", "Guatemala", "Guernsey", "Guinea",
-                 "Guinea-Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India",
-                 "Indonesia", "Iran", "Iraq", "Israel", "Italy", "Ivory Coast", "Jamaica", "Japan", "Jersey", "Jordan",
-                 "Kazakhstan", "Kenya", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Liberia", "Libya",
-                 "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Madagascar", "mainland China", "Malawi",
-                 "Malaysia", "Mali", "Malta", "Martinique", "Mauritania", "Mauritius", "Mayotte", "Mexico", "Moldova",
-                 "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia",
-                 "Nepal", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea",
-                 "North Macedonia", "Norway", "Oman", "Pakistan", "Panama", "Papua New Guinea", "Paraguay",
-                 "Peru", "Poland", "Portugal", "Puerto Rico", "Qatar", "Romania", "Russia", "Rwanda", "Réunion",
-                 "Saint Barthélemy", "Saint Helena", "Saint Kitts and Nevis", "Saint Lucia",
-                 "Saint Pierre and Miquelon", "Saint Vincent and the Grenadines", "San Marino", "Saudi Arabia",
-                 "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Sint Maarten", "Slovakia", "Slovenia",
-                 "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname",
-                 "Sweden", "Switzerland", "Syria", "São Tomé and Príncipe", "Taiwan", "Tajikistan", "Tanzania",
-                 "Thailand", "the Bahamas", "the British Virgin Islands", "the Cayman Islands",
-                 "the Central African Republic", "the Czech Republic", "the Democratic Republic of the Congo",
-                 "the Dominican Republic", "the Falkland Islands", "the Faroe Islands", "the Gambia", "the Isle of Man",
-                 "the Maldives", "the Netherlands", "the Northern Mariana Islands", "the Philippines",
-                 "the Republic of Ireland", "the Republic of the Congo", "the State of Palestine",
-                 "the Turks and Caicos Islands", "the United Arab Emirates", "the United Kingdom", "the United States",
-                 "the United States Virgin Islands", "the Åland Islands", "Togo", "Trinidad and Tobago", "Tunisia",
-                 "Turkey", "Turkmenistan", "Uganda", "Ukraine", "Uruguay", "Uzbekistan", "Vatican City", "Venezuela",
-                 "Vietnam", "Western Sahara", "Yemen", "Zambia", "Zimbabwe"]
+all_countries = {"Afghanistan": "afghanistan", "Albania": "albania", "Algeria": "algeria", "Andorra": "andorra",
+                 "Angola": "angola", "Anguilla": "anguilla", "Antarctica": "", "Antigua and Barbuda":
+                     "antigua-and-barbuda", "Argentina": "argentina", "Armenia": "armenia", "Aruba": "aruba",
+                 "Australia": "australia", "Austria": "austria", "Azerbaijan": "azerbaijan", "Bahrain": "bahrain",
+                 "Bangladesh": "bangladesh", "Barbados": "barbados", "Belarus": "belarus", "Belgium": "belgium",
+                 "Belize": "belize", "Benin": "benin", "Bermuda": "bermuda", "Bhutan": "bhutan", "Bolivia":
+                     "bolivia", "Bonaire": "", "Bosnia and Herzegovina": "bosnia-and-herzegovina", "Botswana":
+                     "botswana", "Brazil": "brazil", "British Overseas Territories": "", "Brunei":
+                     "brunei-darussalam", "Bulgaria": "bulgaria", "Burkina Faso": "burkina-faso", "Burundi":
+                     "burundi", "Cambodia": "cambodia", "Cameroon": "cameroon", "Canada": "canada", "Cape Verde":
+                     "", "Chad": "chad", "Chile": "chile", "Colombia": "colombia", "Costa Rica": "costa-rica",
+                 "Croatia": "croatia", "Cuba": "cuba", "Curaçao": "curaçao", "Cyprus": "cyprus", "Denmark":
+                     "denmark", "Djibouti": "djibouti", "Dominica": "dominica", "East Timor": "timor-leste",
+                 "Ecuador": "ecuador", "Egypt": "egypt", "El Salvador": "el-salvador", "Equatorial Guinea":
+                     "equatorial-guinea", "Eritrea": "eritrea", "Estonia": "estonia", "Eswatini": "swaziland",
+                 "Ethiopia": "ethiopia", "Fiji": "fiji", "Finland": "finland", "France": "france",
+                 "French Guiana": "french-guiana", "French Polynesia": "french-polynesia", "French Saint Martin":
+                     "saint-martin", "Gabon": "gabon", "Georgia (country)": "georgia", "Germany": "germany", "Ghana"
+                 : "ghana", "Gibraltar": "gibraltar", "Greece": "greece", "Greenland": "greenland", "Grenada":
+                     "grenada", "Guadeloupe": "guadeloupe", "Guam": "", "Guatemala": "guatemala", "Guernsey": "",
+                 "Guinea": "guinea", "Guinea-Bissau": "guinea-bissau", "Guyana": "guyana", "Haiti": "haiti",
+                 "Honduras": "honduras", "Hong Kong": "china-hong-kong-sar", "Hungary": "hungary", "Iceland":
+                     "iceland", "India": "india", "Indonesia": "indonesia", "Iran": "iran", "Iraq": "iraq",
+                 "Israel": "israel", "Italy": "italy", "Ivory Coast": "cote-d-ivoire", "Jamaica": "jamaica",
+                 "Japan": "japan", "Jersey": "", "Jordan": "jordan", "Kazakhstan": "kazakhstan", "Kenya": "kenya",
+                 "Kuwait": "kuwait", "Kyrgyzstan": "kyrgyzstan", "Laos": "laos", "Latvia": "latvia", "Lebanon":
+                     "lebanon", "Liberia": "liberia", "Libya": "libya", "Liechtenstein": "liechtenstein",
+                 "Lithuania": "lithuania", "Luxembourg": "luxembourg", "Macau": "china-macao-sar", "Madagascar":
+                     "madagascar", "mainland China": "china", "Malawi": "malawi", "Malaysia": "malaysia", "Mali":
+                     "mali", "Malta": "malta", "Martinique": "martinique", "Mauritania": "mauritania", "Mauritius":
+                     "mauritius", "Mayotte": "mayotte", "Mexico": "mexico", "Moldova": "moldova", "Monaco":
+                     "monaco", "Mongolia": "mongolia", "Montenegro": "montenegro", "Montserrat": "montserrat",
+                 "Morocco": "morocco", "Mozambique": "mozambique", "Myanmar": "myanmar", "Namibia": "namibia",
+                 "Nepal": "nepal", "New Caledonia": "new-caledonia", "New Zealand": "new-zealand", "Nicaragua":
+                     "nicaragua", "Niger": "niger", "Nigeria": "nigeria", "North Korea": "", "North Macedonia":
+                     "macedonia", "Norway": "norway", "Oman": "oman", "Pakistan": "pakistan", "Panama": "panama",
+                 "Papua New Guinea": "papua-new-guinea", "Paraguay": "paraguay", "Peru": "peru", "Poland":
+                     "poland", "Portugal": "portugal", "Puerto Rico": "", "Qatar": "qatar", "Romania": "romania",
+                 "Russia": "russia", "Rwanda": "rwanda", "Réunion": "réunion", "Saint Barthélemy":
+                     "saint-barthélemy", "Saint Helena": "", "Saint Kitts and Nevis": "saint-kitts-and-nevis",
+                 "Saint Lucia": "saint-lucia", "Saint Pierre and Miquelon": "saint-pierre-and-miquelon",
+                 "Saint Vincent and the Grenadines": "saint-vincent-and-the-grenadines", "San Marino": "san-marino",
+                 "Saudi Arabia": "saudi-arabia", "Senegal": "senegal", "Serbia": "serbia", "Seychelles":
+                     "seychelles", "Sierra Leone": "sierra-leone", "Singapore": "singapore", "Sint Maarten":
+                     "sint-maarten", "Slovakia": "slovakia", "Slovenia": "slovenia", "Somalia": "somalia",
+                 "South Africa": "south-africa", "South Korea": "south-korea", "South Sudan": "south-sudan",
+                 "Spain": "spain", "Sri Lanka": "sri-lanka", "Sudan": "sudan", "Suriname": "suriname", "Sweden":
+                     "sweden", "Switzerland": "switzerland", "Syria": "syria", "São Tomé and Príncipe":
+                     "são-tomé-and-príncipe", "Taiwan": "taiwan", "Tajikistan": "tajikistan", "Tanzania":
+                     "tanzania", "Thailand": "thailand", "the Bahamas": "bahamas", "the British Virgin Islands":
+                     "british-virgin-islands", "the Cayman Islands": "cayman-islands", "the Central African Republic"
+                 : "", "the Czech Republic": "czech-republic", "the Democratic Republic of the Congo":
+                     "democratic-republic-of-the-congo", "the Dominican Republic": "dominican-republic",
+                 "the Falkland Islands": "falkland-islands-malvinas", "the Faroe Islands": "", "the Gambia": "gambia",
+                 "the Isle of Man": "isle-of-man", "the Maldives": "maldives", "the Netherlands": "netherlands",
+                 "the Northern Mariana Islands": "", "the Philippines": "philippines",
+                 "the Republic of Ireland": "ireland", "the Republic of the Congo": "congo",
+                 "the State of Palestine": "state-of-palestine",
+                 "the Turks and Caicos Islands": "turks-and-caicos-islands",
+                 "the United Arab Emirates": "united-arab-emirates", "the United Kingdom": "uk",
+                 "the United States": "us", "the United States Virgin Islands": "", "the Åland Islands": "",
+                 "Togo": "togo", "Trinidad and Tobago": "trinidad-and-tobago", "Tunisia": "tunisia", "Turkey": "turkey",
+                 "Turkmenistan": "", "Uganda": "uganda", "Ukraine": "ukraine", "Uruguay": "uruguay",
+                 "Uzbekistan": "uzbekistan", "Vatican City": "holy-see", "Venezuela": "venezuela",
+                 "Vietnam": "viet-nam", "Western Sahara": "western-sahara", "Yemen": "yemen", "Zambia": "zambia",
+                 "Zimbabwe": "zimbabwe"}

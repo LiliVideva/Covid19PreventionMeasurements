@@ -1,3 +1,4 @@
+import pandas as pd
 import spacy
 
 nlp = spacy.load("en_core_web_sm")
@@ -18,9 +19,16 @@ def get_event_by_date(page_contents, relevant_section_titles):
                 for sent in doc.sents:
                     for d in dates:
                         if d in sent.text:
-                            date_sentences[d] = sent.text
+                            date_sentences[reformat_date(d)] = sent.text
             # print(f'{section}:\n'
             #       f'========================\n')
             # for key, value in date_sentences.items():
             #     print(f'"{key}" - "{value}"')
     return date_sentences
+
+
+def reformat_date(dt):
+    try:
+        return pd.to_datetime(dt + " 2020").strftime("%d-%m")
+    except ValueError:
+        return dt
