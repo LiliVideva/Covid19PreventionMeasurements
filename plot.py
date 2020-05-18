@@ -53,4 +53,6 @@ def hover(event):
 
 fig.canvas.mpl_connect("motion_notify_event", hover)
 plt.setp(ax.get_xticklabels(), rotation=90, horizontalalignment='right')
+plt.xlabel("Date")
+plt.ylabel("Number of Cases")
 plt.show()
