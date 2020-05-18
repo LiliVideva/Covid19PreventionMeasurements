@@ -29,6 +29,6 @@ def get_event_by_date(page_contents, relevant_section_titles):
 
 def reformat_date(dt):
     try:
-        return pd.to_datetime(dt + " 2020").strftime("%d-%m")
+        return pd.to_datetime(dt + " 2020").strftime("%b %d")
     except ValueError:
         return dt
