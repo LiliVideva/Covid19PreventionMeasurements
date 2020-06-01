@@ -33,12 +33,13 @@ class PlotGraphics:
         self._main_x = stats['Total Coronavirus Cases']["dates"]
         self._main_y = stats['Total Coronavirus Cases']["values"]
         for title, stat in stats.items():
-            plt.scatter(stat["dates"], stat["values"], s=50)
+            plt.scatter(stat["dates"], stat["values"], s=50, label=title)
         self._fig.canvas.mpl_connect("motion_notify_event", self.hover)
         plt.setp(self._ax.get_xticklabels(), rotation=90, horizontalalignment='right')
         plt.title(country)
         plt.xlabel("Date")
         plt.ylabel("Number of Cases")
+        self._ax.legend()
         plt.show()
 
     def hover(self, event):
