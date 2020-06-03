@@ -21,7 +21,7 @@ if __name__ == '__main__':
     all_page_titles.extend(retrieve_articles.get_related_article_titles())
     print("Getting pages content ......")
     pages_content = retrieve_articles.get_pages_content_as_json(all_page_titles)
-    print(len(pages_content))
+    # print(len(pages_content))
 
     # drive = drive_utils.drive_login()
     # drive_dir = drive_utils.get_directory(drive)
