@@ -1,6 +1,5 @@
 from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize
-from progress.spinner import Spinner
 import wikipediaapi
 from commons import all_countries
 
@@ -26,7 +25,6 @@ def get_all_section_titles():
     titles = {}
     wiki = wikipediaapi.Wikipedia()
     for c in all_countries.keys():
-        # year = ("2020", "2019-20")[c == "mainland China"]
         year = "2019-20" if c == "mainland China" else "2020"
         sect = wiki.page(f'{year} coronavirus pandemic in {c}').sections
 
