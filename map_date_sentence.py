@@ -19,15 +19,22 @@ def get_event_by_date(page_contents, relevant_section_titles):
                 doc = nlp(line)
                 # if len(doc.ents) > 0:
                 #     displacy.serve(doc, style='ent')
-                dates = [entity.text for entity in doc.ents if entity.label_ == "DATE"]
-                for sent in doc.sents:
-                    for d in dates:
-                        if d in sent.text:
-                            new_date, current_date = reformat_date(d, current_date)
+                date_entities = [entity for entity in doc.ents if entity.label_ == "DATE"]
+                for d_entity in date_entities:
+                    sentence = doc[doc[d_entity.start].sent.start].sent
+                    if d_entity.text in sentence.text and d_entity.text != sentence.text:
+                        new_date, current_date = reformat_date(d_entity.text, current_date)
+                        if new_date == "":
+                            continue
+                        sent_content = date_sentence.get(new_date)
+                        if sent_content:
+                            s = f'{sent_content}\n'
 
-                            sent_content = date_sentence.get(new_date)
-                            s = sent_content if sent_content else ""
-                            date_sentence[new_date] = s + sent.text
+                            if sentence.text in sent_content:
+                                continue
+                        else:
+                            s = ""
+                        date_sentence[new_date] = s + sentence.text
 
         pages_date_sentences[page_title] = date_sentence
     return pages_date_sentences
@@ -94,7 +101,7 @@ def resolve_date(dt, current_date):
         recalculated_date = pd.to_datetime(current_date, errors='coerce', format="%b %d") + pd.DateOffset(days=number)
 
     if recalculated_date == "":
-        new_date = dt
+        new_date = ""
     else:
         new_date = pd.to_datetime(recalculated_date).strftime("%b %d")
 
