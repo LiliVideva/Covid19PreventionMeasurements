@@ -21,3 +21,11 @@ def upload_files(gdrive, covid_dir, page_contents):
         file.SetContentString(json.dumps(page_content))
         file.Upload()
         print(f'"{page_title}" has been uploaded')
+
+
+def update_database(pages_content):
+
+    drive = drive_login()
+    drive_dir = get_directory(drive)
+    upload_files(drive, drive_dir, pages_content)
+

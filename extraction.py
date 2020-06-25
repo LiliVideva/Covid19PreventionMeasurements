@@ -21,12 +21,7 @@ if __name__ == '__main__':
     all_page_titles.extend(retrieve_articles.get_related_article_titles())
     print("Getting pages content ......")
     pages_content = retrieve_articles.get_pages_content_as_json(all_page_titles)
-    # print(len(pages_content))
-
-    # drive = drive_utils.drive_login()
-    # drive_dir = drive_utils.get_directory(drive)
-    # drive_utils.upload_files(drive, drive_dir, pages_content)
-
+    drive_utils.update_database(pages_content)
     print("Getting data sentences ......")
     dates_sentences = map_date_sentence.get_event_by_date(pages_content, relevant_section_titles)
     print("Getting virus_country_results ......")
