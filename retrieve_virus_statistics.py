@@ -29,7 +29,6 @@ def retrieve_statistics():
             try:
                 parsed = demjson.decode(data, "utf-8")
             except demjson.JSONDecodeError:
-                # print(f"Unable to decode {name} to JSON for {c}")
                 continue
 
             title = parsed["yAxis"]["title"]["text"]
@@ -42,7 +41,6 @@ def retrieve_statistics():
         if not plots_data:
             print(f"No data found for {c}({worldometer_country})")
         else:
-            # print(f"Found data for {c}({worldometer_country})")
             virus_country_numbers[c] = dict(plots_data)
 
     return virus_country_numbers

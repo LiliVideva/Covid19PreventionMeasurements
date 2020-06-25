@@ -258,8 +258,6 @@ class PlotGraphics:
                           bounds_error=False,
                           fill_value='extrapolate')
 
-        start_date = pd.to_datetime(index[1] + " 2020")
-        end_date = pd.to_datetime(index[-1] + " 2020")
         extended = pd.date_range(start=datetime_index[0],
                                  end=datetime_index[-1] + pd.Timedelta(days=1))
 

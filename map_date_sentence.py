@@ -17,8 +17,6 @@ def get_event_by_date(page_contents, relevant_section_titles):
             current_date = ""
             for line in page_content[section]:
                 doc = nlp(line)
-                # if len(doc.ents) > 0:
-                #     displacy.serve(doc, style='ent')
                 date_entities = [entity for entity in doc.ents if entity.label_ == "DATE"]
                 for d_entity in date_entities:
                     sentence = doc[doc[d_entity.start].sent.start].sent
@@ -46,10 +44,6 @@ def reformat_date(dt, current_date):
         return changed_date, changed_date
     except ValueError:
         decoded_date, new_current_date = resolve_date(dt, current_date)
-        # if dt != decoded_date:
-        #     print(f'current date: {current_date}')
-        #     print(f'raw date: {dt}')
-        #     print(f'decoded date: {decoded_date}')
         return decoded_date, new_current_date
 
 
