@@ -34,3 +34,4 @@ if __name__ == '__main__':
 
     plot = plot.PlotGraphics(virus_country_results, dates_sentences)
     plot.plot_page_statistics("Bulgaria")
+    plot.rt_stats("Bulgaria")
