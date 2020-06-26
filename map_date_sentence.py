@@ -8,34 +8,31 @@ nlp = spacy.load("en_core_web_sm")
 
 
 def get_event_by_date(page_contents, relevant_section_titles):
-    pages_date_sentences = {}
 
-    for page_title, page_content in page_contents.items():
-        date_sentence = {}
-        page_relevant_sections = [key for key in page_content.keys() if key in relevant_section_titles]
-        for section in page_relevant_sections:
-            current_date = ""
-            for line in page_content[section]:
-                doc = nlp(line)
-                date_entities = [entity for entity in doc.ents if entity.label_ == "DATE"]
-                for d_entity in date_entities:
-                    sentence = doc[doc[d_entity.start].sent.start].sent
-                    if d_entity.text in sentence.text and d_entity.text != sentence.text:
-                        new_date, current_date = reformat_date(d_entity.text, current_date)
-                        if new_date == "":
+    date_sentence = {}
+    page_relevant_sections = [key for key in page_contents.keys() if key in relevant_section_titles]
+    for section in page_relevant_sections:
+        current_date = ""
+        for line in page_contents[section]:
+            doc = nlp(line)
+            date_entities = [entity for entity in doc.ents if entity.label_ == "DATE"]
+            for d_entity in date_entities:
+                sentence = doc[doc[d_entity.start].sent.start].sent
+                if d_entity.text in sentence.text and d_entity.text != sentence.text:
+                    new_date, current_date = reformat_date(d_entity.text, current_date)
+                    if new_date == "":
+                        continue
+                    sent_content = date_sentence.get(new_date)
+                    if sent_content:
+                        s = f'{sent_content}\n'
+
+                        if sentence.text in sent_content:
                             continue
-                        sent_content = date_sentence.get(new_date)
-                        if sent_content:
-                            s = f'{sent_content}\n'
+                    else:
+                        s = ""
+                    date_sentence[new_date] = s + sentence.text
 
-                            if sentence.text in sent_content:
-                                continue
-                        else:
-                            s = ""
-                        date_sentence[new_date] = s + sentence.text
-
-        pages_date_sentences[page_title] = date_sentence
-    return pages_date_sentences
+    return date_sentence
 
 
 def reformat_date(dt, current_date):

@@ -10,9 +10,10 @@ np.random.seed(1)
 
 
 class PlotGraphics:
-    def __init__(self, virus_country_results, date_sentence):
+    def __init__(self, virus_country_results, date_sentence, country):
         self._virus_country_results = virus_country_results
         self._date_sentence = date_sentence
+        self._country = country
         self._main_scatter = None
         self._current_country = None
         self._main_x = None
@@ -37,9 +38,8 @@ class PlotGraphics:
         )
         self._annotations.set_visible(False)
 
-    def plot_page_statistics(self, country):
-        self._current_country = country
-        stats = self._virus_country_results.get(country)
+    def plot_page_statistics(self):
+        stats = self._virus_country_results
         self._main_scatter = plt.scatter(stats['Total Coronavirus Cases']["dates"], stats['Total Coronavirus Cases']["values"], s=50)
         self._main_x = stats['Total Coronavirus Cases']["dates"]
         self._main_y = stats['Total Coronavirus Cases']["values"]
@@ -47,7 +47,7 @@ class PlotGraphics:
             plt.scatter(stat["dates"], stat["values"], s=50, label=title)
         self._fig.canvas.mpl_connect("motion_notify_event", self.hover)
         plt.setp(self._ax.get_xticklabels(), rotation=90, horizontalalignment='right')
-        plt.title(country)
+        plt.title(self._country)
         plt.xlabel("Date")
         plt.ylabel("Number of Cases")
         self._ax.legend()
@@ -69,22 +69,22 @@ class PlotGraphics:
     def update_annotation(self, index):
         pos = self._main_scatter.get_offsets()[index["ind"][0]]
         self._annotations.xy = pos
-        content = self._date_sentence[f"2020 coronavirus pandemic in {self._current_country}"]
+        content = self._date_sentence
         text = "{}".format(" ".join(content[self._main_x[n]] for n in index["ind"]))
 
         self._annotations.set_text(text)
         self._annotations.get_bbox_patch().set_facecolor(self._cmap(self._norm(3)))
         self._annotations.get_bbox_patch().set_alpha(0.4)
 
-    def rt_stats(self, country):
+    def rt_stats(self):
         # We create an array for every possible value of Rt
 
-        year = "2019-20" if country == "mainland China" else "2020"
-        cases_raw = self._virus_country_results[country]["Total Coronavirus Cases"]
+        year = "2019-20" if self._country == "mainland China" else "2020"
+        cases_raw = self._virus_country_results["Total Coronavirus Cases"]
         cases = dict(zip(cases_raw["dates"], cases_raw["values"]))
         original, smoothed = self.prepare_cases(cases)
 
-        original.plot(title=f"Total Coronavirus Cases per Day in {country}",
+        original.plot(title=f"Total Coronavirus Cases per Day in {self._country}",
                       c='k',
                       linestyle=':',
                       alpha=.5,
@@ -99,7 +99,7 @@ class PlotGraphics:
 
         posteriors, log_likelihood = self.get_posteriors(smoothed)
 
-        ax = posteriors.plot(title=f'{country} - Daily Posterior for $R_t$',
+        ax = posteriors.plot(title=f'{self._country} - Daily Posterior for $R_t$',
                              legend=False,
                              lw=1,
                              c='k',
@@ -123,8 +123,8 @@ class PlotGraphics:
 
         fig, ax = plt.subplots(figsize=(2000 / 72, 500 / 72))
 
-        self.plot_rt(result, ax, country, fig)
-        ax.set_title(f'Real-time $R_t$ for {country}')
+        self.plot_rt(result, ax, self._country, fig)
+        ax.set_title(f'Real-time $R_t$ for {self._country}')
         plt.show()
 
     def prepare_cases(self, cases, cutoff=25):
