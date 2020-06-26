@@ -29,3 +29,15 @@ def update_database(pages_content):
     drive_dir = get_directory(drive)
     upload_files(drive, drive_dir, pages_content)
 
+
+def get_page_content_for_country(country):
+    page_content = {}
+    drive = drive_login()
+    drive_dir = get_directory(drive)
+    query = f'"{drive_dir["id"]}" in parents and trashed=false'
+    file_list = drive.ListFile({'q': query}).GetList()
+    for country_file in file_list:
+        if country in country_file['title']:
+            page_content = json.loads(country_file.GetContentString())
+
+    return page_content
