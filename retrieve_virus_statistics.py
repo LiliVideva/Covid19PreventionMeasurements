@@ -47,10 +47,10 @@ def retrieve_statistics(country):
     return country_statistics
 
 
-def calculate_cases_increase(dates_sentences, virus_country_results):
+def calculate_cases_increase(dates_sentences, virus_country_results, rt_stats):
     stat_dates = virus_country_results["Total Coronavirus Cases"]["dates"]
     stat_values = virus_country_results["Total Coronavirus Cases"]["values"]
-    result_data = [["Date", "Measure", "Cases increase for 2 weeks"]]
+    result_data = [["Date", "Measure", "Rt", "Rt in 2 weeks", "Cases increase for 2 weeks"]]
 
     for date, sentence in sorted(dates_sentences.items()):
         if date in stat_dates:
@@ -63,12 +63,12 @@ def calculate_cases_increase(dates_sentences, virus_country_results):
                 checked_date_cases = stat_values[stat_dates.index(checked_date.strftime("%b %d"))]
 
             increase_percentage = str("{:.2f}".format((int(checked_date_cases) - int(date_cases))/14))
-            result_data.append([date, sentence, increase_percentage + "%"])
+            result_data.append([date, sentence, rt_stats.get(date), rt_stats.get(checked_date.strftime("%b %d")), increase_percentage + "%"])
 
     result_table = texttable.Texttable()
-    result_table.set_cols_align(["c", "l", "c"])
-    result_table.set_cols_valign(["m", "t", "m"])
-    result_table.set_cols_width([15, 120, 25])
+    result_table.set_cols_align(["c", "l", "c", "c", "c"])
+    result_table.set_cols_valign(["m", "t", "m", "m", "m"])
+    result_table.set_cols_width([15, 120, 10, 25, 25])
     result_table.add_rows(result_data)
 
     print(result_table.draw())

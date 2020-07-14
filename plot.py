@@ -123,9 +123,11 @@ class PlotGraphics:
 
         fig, ax = plt.subplots(figsize=(2000 / 72, 500 / 72))
 
-        self.plot_rt(result, ax, self._country, fig)
+        rt_result = self.plot_rt(result, ax, self._country, fig)
         ax.set_title(f'Real-time $R_t$ for {self._country}')
         plt.show()
+
+        return rt_result
 
     def prepare_cases(self, cases, cutoff=25):
         cases_series = pd.Series(cases, index=cases.keys())
@@ -261,7 +263,8 @@ class PlotGraphics:
         extended = pd.date_range(start=datetime_index[0],
                                  end=datetime_index[-1] + pd.Timedelta(days=1))
 
-        ax.fill_between([pd.to_datetime(e).strftime("%b %d") for e in extended],
+        preformat_dates = [pd.to_datetime(e).strftime("%b %d") for e in extended]
+        ax.fill_between(preformat_dates,
                         lowfn(date2num(extended)),
                         highfn(date2num(extended)),
                         color='k',
@@ -285,3 +288,5 @@ class PlotGraphics:
         ax.set_xlim(0, len(result.index))
         fig.set_facecolor('w')
         fig.autofmt_xdate(rotation=45)
+
+        return dict(zip(preformat_dates, values))
