@@ -21,6 +21,8 @@ def get_information_about_country(country, relevant_section_titles):
     print("Getting virus_country_results ......")
     virus_country_results = retrieve_virus_statistics.retrieve_statistics(country)
 
+    retrieve_virus_statistics.calculate_cases_increase(dates_sentences, virus_country_results)
+
     plotter = plot.PlotGraphics(virus_country_results, dates_sentences, country)
     plotter.plot_page_statistics()
     plotter.rt_stats()

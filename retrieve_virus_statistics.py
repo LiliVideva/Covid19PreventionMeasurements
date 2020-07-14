@@ -3,6 +3,8 @@ from collections import OrderedDict
 
 import demjson
 import requests
+import texttable
+import pandas as pd
 from bs4 import BeautifulSoup
 
 from commons import all_countries
@@ -43,3 +45,30 @@ def retrieve_statistics(country):
         country_statistics = dict(plots_data)
 
     return country_statistics
+
+
+def calculate_cases_increase(dates_sentences, virus_country_results):
+    stat_dates = virus_country_results["Total Coronavirus Cases"]["dates"]
+    stat_values = virus_country_results["Total Coronavirus Cases"]["values"]
+    result_data = [["Date", "Measure", "Cases increase for 2 weeks"]]
+
+    for date, sentence in sorted(dates_sentences.items()):
+        if date in stat_dates:
+            date_cases = stat_values[stat_dates.index(date)]
+
+            checked_date = pd.to_datetime(date, errors='coerce', format="%b %d") + pd.DateOffset(days=14)
+            checked_date_cases = "In the future. We will see."
+
+            if checked_date != "NaT" and checked_date.strftime("%b %d") in stat_dates:
+                checked_date_cases = stat_values[stat_dates.index(checked_date.strftime("%b %d"))]
+
+            increase_percentage = str("{:.2f}".format((int(checked_date_cases) - int(date_cases))/14))
+            result_data.append([date, sentence, increase_percentage + "%"])
+
+    result_table = texttable.Texttable()
+    result_table.set_cols_align(["c", "l", "c"])
+    result_table.set_cols_valign(["m", "t", "m"])
+    result_table.set_cols_width([15, 120, 25])
+    result_table.add_rows(result_data)
+
+    print(result_table.draw())
