@@ -1,5 +1,3 @@
-from nltk.stem import PorterStemmer
-from nltk.tokenize import word_tokenize
 import wikipediaapi
 from commons import all_countries
 
@@ -8,17 +6,6 @@ def get_relevant_section_titles_tokens():
     with open("stemmed_keywords_for_relevant_section_titles.txt", "r") as input_file:
         res = input_file.readlines()
     return [x.strip() for x in res]
-
-
-def stem_sentence(sentence):
-    porter = PorterStemmer()
-    token_words = word_tokenize(sentence)
-    sentence = []
-
-    for word in token_words:
-        sentence.append(porter.stem(word))
-
-    return " ".join(sentence)
 
 
 def get_all_section_titles():
